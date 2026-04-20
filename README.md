@@ -19,7 +19,7 @@ A hybrid approach for segmenting diseased areas on plant leaves, combining **K�
 - [License](#license)
 
 ## Overview
-Accurate segmentation of plant diseases is crucial for automated agricultural monitoring. Deep learning models like U‑Net require large annotated datasets, while foundation models such as SAM need thousands of fine‑tuning examples. In contrast, our pipeline achieves reliable segmentation with only **~180 manually labeled regions** by leveraging classical computer vision and lightweight machine learning.
+Accurate segmentation of plant diseases is crucial for automated agricultural monitoring. Deep learning models like U‑Net require large annotated datasets, while foundation models such as SAM need thousands of fine‑tuning examples. In contrast, this pipeline achieves reliable segmentation with only **~180 manually labeled regions** by leveraging classical computer vision and lightweight machine learning.
 
 ### How It Works
 1. **Healthy Leaf Mask (KNN)**
@@ -105,7 +105,7 @@ python src/evaluate.py --images data/evaluation/images --masks data/evaluation/m
 The script outputs average IoU, F1, and F2 scores.
 
 ### Results
-Evaluated on a test set of 30 manually annotated grape leaf images affected by black rot, our pipeline achieved the following metrics:
+Evaluated on a test set of 30 manually annotated grape leaf images affected by black rot, my pipeline achieved the following metrics:
 
 | Metric | Value |
 |--------|-------|
