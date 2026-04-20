@@ -139,8 +139,8 @@ A lightweight neural network could be integrated for refining boundary predictio
 ```
 
 ## Author
-Didin Pavel
-Email: didin.pa@phystech.edu
+Didin Pavel  
+Email: didin.pa@phystech.edu  
 GitHub: @pavel-didin
 
 ## License
