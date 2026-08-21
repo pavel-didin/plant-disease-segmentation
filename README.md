@@ -7,9 +7,9 @@ A hybrid approach for segmenting diseased areas on plant leaves, combining **K�
 
 **Stack:** OpenCV · KNN · XGBoost · feature engineering · classical CV  
 
-![Pipeline overview: input → leaf mask → disease contours → result](examples/pipeline-overview.png)
+![Pipeline overview: input → leaf mask → internal contours → external boundary contours](examples/pipeline-overview.png)
 
-*From left to right: original leaf, healthy-leaf mask, disease contours, final visualization.*
+*From left to right: original leaf, healthy-leaf mask, internal disease contours (inside the leaf), external/boundary disease contours (on the leaf edge).*
 
 ## Table of Contents
 - [Overview](#overview)
