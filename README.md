@@ -5,6 +5,12 @@
 
 A hybrid approach for segmenting diseased areas on plant leaves, combining **K‑Nearest Neighbors (KNN)** for healthy tissue detection and **XGBoost** for classifying boundary regions. This method is designed for scenarios with limited annotated data and outperforms popular CNN‑based architectures under such constraints.
 
+**Stack:** OpenCV · KNN · XGBoost · feature engineering · classical CV  
+
+![Pipeline overview: input → leaf mask → disease contours → result](examples/pipeline-overview.png)
+
+*From left to right: original leaf, healthy-leaf mask, disease contours, final visualization.*
+
 ## Table of Contents
 - [Overview](#overview)
 - [Project Structure](#project-structure)
@@ -25,6 +31,10 @@ Accurate segmentation of plant diseases is crucial for automated agricultural mo
 1. **Healthy Leaf Mask (KNN)**
    A KNN classifier trained on a small set of manually annotated rectangles separates healthy leaf pixels from everything else (background, shadows, diseased areas). This mask is refined using morphological operations and enclave removal.
 
+![KNN healthy-leaf mask: input → noisy mask → cleaned mask](examples/knn-healthy-mask.png)
+
+*Healthy tissue mask after KNN + morphological cleanup.*
+
 2. **Internal Disease Detection**
    Pixels inside the leaf mask that were **not** classified as healthy are treated as diseased. These enclaves are cleaned with area‑based filtering.
 
@@ -33,6 +43,14 @@ Accurate segmentation of plant diseases is crucial for automated agricultural mo
    - For each region, features are extracted: area, mean BGR/HSV values, per‑channel variance, and brightness.
    - A pre‑trained XGBoost classifier labels each region as diseased (class 0), healthy (1), shadow (2), or background (3).
    - Diseased regions are merged with the internal mask to produce the final segmentation.
+
+![Region features used by XGBoost](examples/region-features.png)
+
+*Example region with engineered features (area, BGR/HSV means, variances, brightness).*
+
+![XGBoost class map and confidence](examples/xgboost-class-map.png)
+
+*Predicted classes (diseased / healthy / shadow / background) and model confidence.*
 
 4. **Post‑processing**
    Small isolated artifacts are removed using `merge_enclaves`, and contours are drawn on the original image.
@@ -52,11 +70,18 @@ plant-disease-segmentation/
 │   └── evaluation/                  # Evaluation dataset (optional)
 │       ├── images/                  # 30 original leaf images
 │       └── masks/                   # 30 ground‑truth binary masks
+├── notebooks/
+│   └── plants_semantic_segmentation.ipynb
 ├── src/
 │   ├── segmentation_utils.py        # Core algorithms
 │   ├── predict.py                   # Single‑image prediction script
 │   └── evaluate.py                  # Batch evaluation script
-└── examples/                        # Example input/output images (optional)
+└── examples/                        # README figures
+    ├── pipeline-overview.png
+    ├── knn-healthy-mask.png
+    ├── region-features.png
+    ├── xgboost-class-map.png
+    └── prediction-vs-groundtruth.png
 ```
 
 ## Installation
@@ -112,6 +137,10 @@ Evaluated on a test set of 30 manually annotated grape leaf images affected by b
 | IoU    | 0.60  |
 | F1     | 0.74  |
 | F2     | 0.75  |
+
+![Original vs ground truth vs prediction](examples/prediction-vs-groundtruth.png)
+
+*Left to right: original image, ground-truth disease mask, predicted disease mask.*
 
 **Comparison with deep learning approaches:**
 
